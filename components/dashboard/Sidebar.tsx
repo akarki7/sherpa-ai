@@ -17,7 +17,7 @@ const navItems = [
   { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
   { icon: Map, label: "My Treks", href: "/dashboard" },
   { icon: Brain, label: "AI Planner", href: "/dashboard" },
-  { icon: AlertTriangle, label: "Safety Alerts", href: "/dashboard" },
+  { icon: AlertTriangle, label: "Safety Alerts", href: "/dashboard/alerts" },
   { icon: Settings, label: "Settings", href: "/dashboard" },
 ];
 

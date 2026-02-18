@@ -10,7 +10,7 @@ const navLinks = [
   { href: "#features", label: "Features" },
   { href: "/treks", label: "Treks" },
   { href: "/dashboard", label: "Dashboard" },
-  { href: "#pricing", label: "Pricing" },
+  { href: "/pricing", label: "Pricing" },
 ];
 
 export default function Navbar() {
