@@ -225,7 +225,7 @@ export default function ChatWidget() {
             return updated;
           });
         }
-      } catch (err) {
+      } catch {
         setMessages((prev) => {
           const updated = [...prev];
           const last = updated[updated.length - 1];
