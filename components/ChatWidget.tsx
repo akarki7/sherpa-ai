@@ -29,6 +29,49 @@ const QUICK_CHIPS = [
   "What permits do I need?",
 ];
 
+/** Predefined answers when API is unavailable; key phrases (lowercase) → answer */
+const PREDEFINED_ANSWERS: { keywords: string[]; answer: string }[] = [
+  {
+    keywords: ["best trek", "beginner", "beginners", "easy trek", "first trek"],
+    answer:
+      "**Best treks for beginners in Nepal:**\n\n- **Ghorepani Poon Hill** — 4–5 days, lower altitude, teahouse comfort, and stunning Annapurna views. Perfect first trek.\n- **Langtang Valley** — 7–8 days, less crowded, beautiful valleys and Tamang culture.\n- **Mardi Himal** — 5–6 days, quieter alternative to Annapurna Base Camp with great mountain views.\n\nStart with Poon Hill for the easiest introduction; Langtang if you want something longer and more remote.",
+  },
+  {
+    keywords: ["everest base camp", "ebc", "everest difficulty", "how hard is everest"],
+    answer:
+      "**Everest Base Camp (EBC)** is a moderate–challenging trek: about **12–14 days** round trip from Lukla. You’ll reach **5,364 m (17,598 ft)**. No technical climbing, but altitude and long days make it tough. Good fitness and prior high-altitude experience help. Acclimatization days are built in (e.g. Namche, Dingboche). Best seasons: **March–May** and **September–November**.",
+  },
+  {
+    keywords: ["altitude", "sickness", "ams", "acclimatization", "altitude sickness"],
+    answer:
+      "**Altitude sickness tips:**\n\n- **Go slow** — don’t gain more than 300–500 m sleeping altitude per day above 3,000 m.\n- **Stay hydrated** and avoid alcohol.\n- **Acclimatize** — use rest days (e.g. Namche, Dingboche on EBC).\n- **Know the signs** — headache, nausea, dizziness, fatigue; descend if they worsen.\n- **Consider Diamox** (acetazolamide) after talking to a doctor; it’s not a substitute for sensible ascent.",
+  },
+  {
+    keywords: ["permit", "permits", "visa", "trekking permit", "what do i need"],
+    answer:
+      "**Permits for trekking in Nepal:**\n\n- **TIMS** (Trekkers’ Information Management System) — required for most treks; get it in Kathmandu or Pokhara.\n- **National Park / Conservation Area permit** — e.g. Sagarmatha (Everest), Annapurna, Langtang; buy at park entry or in Kathmandu/Pokhara.\n- **Restricted areas** (e.g. Upper Mustang, Manaslu) need a **special permit** and usually a guide.\n\nYour **visa** is separate (on arrival or e-visa). Bring passport photos and cash for permits.",
+  },
+  {
+    keywords: ["when to go", "best time", "season", "weather"],
+    answer:
+      "**Best time to trek in Nepal:**\n\n- **Autumn (Sept–Nov)** — clear skies, stable weather, great views. Most popular.\n- **Spring (March–May)** — warmer, rhododendrons in bloom, busier.\n- **Winter (Dec–Feb)** — cold at higher altitude but often clear; lower trails are fine.\n- **Monsoon (June–Aug)** — rain, leeches, and clouds; good for rain-shadow areas like Upper Mustang.",
+  },
+  {
+    keywords: ["gear", "equipment", "what to pack", "packing"],
+    answer:
+      "**Essential trekking gear:**\n\n- **Layers** — base, fleece, down jacket, rain shell.\n- **Good boots** (broken in), thick socks, gaiters for snow/mud.\n- **Daypack**, headlamp, sunscreen, hat, sunglasses.\n- **Sleeping bag** (teahouses have blankets but can be thin).\n- **First aid** — blister kit, pain relief, any personal meds; consider Diamox for altitude after consulting a doctor.\n\nYou can rent or buy a lot in Kathmandu/Pokhara if you travel light.",
+  },
+];
+
+function getPredefinedAnswer(userMessage: string): string | null {
+  const normalized = userMessage.toLowerCase().trim();
+  if (!normalized) return null;
+  for (const { keywords, answer } of PREDEFINED_ANSWERS) {
+    if (keywords.some((k) => normalized.includes(k))) return answer;
+  }
+  return null;
+}
+
 /* ─── simple markdown renderer ─── */
 function renderMarkdown(text: string) {
   const blocks = text.split(/\n{2,}/);
@@ -230,10 +273,15 @@ export default function ChatWidget() {
           const updated = [...prev];
           const last = updated[updated.length - 1];
           if (last.role === "assistant" && !last.content) {
+            const userMsg = updated[updated.length - 2];
+            const userQuestion =
+              userMsg?.role === "user" ? userMsg.content : "";
+            const fallback =
+              getPredefinedAnswer(userQuestion) ||
+              "I’m having trouble connecting right now. Try again in a moment, or ask about things like best treks for beginners, Everest Base Camp, altitude tips, or permits — I can still help with those.";
             updated[updated.length - 1] = {
               ...last,
-              content:
-                "Sorry, I couldn't connect right now. Please check that the API key is configured and try again.",
+              content: fallback,
             };
           }
           return updated;
