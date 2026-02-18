@@ -15,7 +15,7 @@ import {
 
 const navItems = [
   { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
-  { icon: Map, label: "My Treks", href: "/dashboard" },
+  { icon: Map, label: "My Treks", href: "/dashboard/treks" },
   { icon: Brain, label: "AI Planner", href: "/dashboard/planner" },
   { icon: AlertTriangle, label: "Safety Alerts", href: "/dashboard/alerts" },
   { icon: Settings, label: "Settings", href: "/dashboard" },
