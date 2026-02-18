@@ -18,7 +18,7 @@ const navItems = [
   { icon: Map, label: "My Treks", href: "/dashboard/treks" },
   { icon: Brain, label: "AI Planner", href: "/dashboard/planner" },
   { icon: AlertTriangle, label: "Safety Alerts", href: "/dashboard/alerts" },
-  { icon: Settings, label: "Settings", href: "/dashboard" },
+  { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ];
 
 export default function Sidebar() {
