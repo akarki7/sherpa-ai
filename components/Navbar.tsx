@@ -6,10 +6,10 @@ import { Mountain, Menu, X } from "lucide-react";
 import Link from "next/link";
 
 const navLinks = [
-  { href: "#", label: "Home" },
+  { href: "/", label: "Home" },
   { href: "#features", label: "Features" },
   { href: "#treks", label: "Treks" },
-  { href: "#stats", label: "Dashboard" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "#pricing", label: "Pricing" },
 ];
 
@@ -46,7 +46,7 @@ export default function Navbar() {
           {/* CTA + Mobile toggle */}
           <div className="flex items-center gap-3">
             <Link
-              href="#cta"
+              href="/login"
               className="hidden sm:inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg bg-forest hover:bg-forest-light text-white transition-colors"
             >
               Get Started
@@ -87,7 +87,7 @@ export default function Navbar() {
                 </Link>
               ))}
               <Link
-                href="#cta"
+                href="/login"
                 onClick={() => setMobileOpen(false)}
                 className="block px-3 py-2 text-sm font-medium text-forest-light hover:text-white transition-colors"
               >
