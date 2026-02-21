@@ -19,9 +19,6 @@ interface Message {
   content: string;
 }
 
-const STORAGE_KEY = "sherpa-ai-chat";
-const MAX_PERSISTED = 20;
-
 const QUICK_CHIPS = [
   "Best trek for beginners?",
   "Everest Base Camp difficulty",
@@ -160,28 +157,6 @@ export default function ChatWidget() {
   const inputRef = useRef<HTMLInputElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  /* Load persisted messages */
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as Message[];
-        setMessages(parsed);
-        if (parsed.length > 0) setHasInteracted(true);
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  /* Persist messages */
-  useEffect(() => {
-    if (messages.length > 0) {
-      const toStore = messages.slice(-MAX_PERSISTED);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(toStore));
-    }
-  }, [messages]);
-
   /* Scroll to bottom on new messages */
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -301,7 +276,6 @@ export default function ChatWidget() {
   const clearChat = () => {
     setMessages([]);
     setHasInteracted(false);
-    localStorage.removeItem(STORAGE_KEY);
     setShowMenu(false);
   };
 
