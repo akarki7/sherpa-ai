@@ -11,6 +11,8 @@ import {
   Mountain,
   ChevronLeft,
   ChevronRight,
+  Users,
+  UserPlus,
 } from "lucide-react";
 
 const navItems = [
@@ -18,6 +20,8 @@ const navItems = [
   { icon: Map, label: "My Treks", href: "/dashboard/treks" },
   { icon: Brain, label: "AI Planner", href: "/dashboard/planner" },
   { icon: AlertTriangle, label: "Safety Alerts", href: "/dashboard/alerts" },
+  { icon: Users, label: "Find Guides", href: "/dashboard/guides" },
+  { icon: UserPlus, label: "Register as Guide", href: "/dashboard/guide-register" },
   { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ];
 
