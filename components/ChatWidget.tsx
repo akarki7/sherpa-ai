@@ -302,7 +302,7 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed z-50 bottom-[88px] right-6 w-[380px] h-[520px] max-md:bottom-4 max-md:right-2 max-md:left-2 max-md:w-auto max-md:h-[calc(100vh-100px)] flex flex-col rounded-2xl border border-white/10 bg-card shadow-2xl shadow-black/40 overflow-hidden"
+            className="fixed z-50 bottom-[88px] right-6 w-[380px] h-[520px] max-md:bottom-[148px] max-md:right-2 max-md:left-2 max-md:w-auto max-md:h-[calc(100vh-220px)] flex flex-col rounded-2xl border border-white/10 bg-card shadow-2xl shadow-black/40 overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center gap-3 px-4 py-3 border-b border-white/5 shrink-0">
@@ -459,7 +459,7 @@ export default function ChatWidget() {
           delay: 1,
         }}
         onClick={() => setIsOpen((o) => !o)}
-        className="fixed bottom-6 right-6 z-50 group"
+        className="fixed bottom-[76px] md:bottom-6 right-6 z-50 group"
       >
         {/* Pulsing ring */}
         <span className="absolute inset-0 rounded-full bg-forest/30 animate-ping" />

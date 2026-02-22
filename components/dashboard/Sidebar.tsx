@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
   Map,
@@ -13,6 +14,8 @@ import {
   ChevronRight,
   Users,
   UserPlus,
+  MoreHorizontal,
+  X,
 } from "lucide-react";
 
 const navItems = [
@@ -25,8 +28,14 @@ const navItems = [
   { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ];
 
+const MOBILE_PRIMARY = 4; // items always visible in bottom bar
+
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+
+  const primaryItems = navItems.slice(0, MOBILE_PRIMARY);
+  const overflowItems = navItems.slice(MOBILE_PRIMARY);
 
   return (
     <>
@@ -78,17 +87,63 @@ export default function Sidebar() {
 
       {/* Mobile bottom nav */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-white/5 z-40 flex items-center justify-around py-2 px-1">
-        {navItems.slice(0, 4).map((item) => (
+        {primaryItems.map((item) => (
           <Link
             key={item.label}
             href={item.href}
+            onClick={() => setMoreOpen(false)}
             className="flex flex-col items-center gap-1 px-3 py-1.5 text-gray-500 hover:text-forest-light transition-colors"
           >
             <item.icon className="w-5 h-5" />
             <span className="text-[10px]">{item.label}</span>
           </Link>
         ))}
+
+        {/* More button */}
+        <button
+          onClick={() => setMoreOpen((o) => !o)}
+          className={`flex flex-col items-center gap-1 px-3 py-1.5 transition-colors ${moreOpen ? "text-forest-light" : "text-gray-500 hover:text-forest-light"}`}
+        >
+          {moreOpen ? <X className="w-5 h-5" /> : <MoreHorizontal className="w-5 h-5" />}
+          <span className="text-[10px]">More</span>
+        </button>
       </nav>
+
+      {/* Mobile overflow drawer */}
+      <AnimatePresence>
+        {moreOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="md:hidden fixed inset-0 z-30 bg-background/60 backdrop-blur-sm"
+              onClick={() => setMoreOpen(false)}
+            />
+            {/* Drawer */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 20, opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              className="md:hidden fixed bottom-16 left-3 right-3 z-40 rounded-2xl bg-card border border-white/10 p-2 shadow-2xl"
+            >
+              {overflowItems.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setMoreOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
+                >
+                  <item.icon className="w-5 h-5 text-forest-light shrink-0" />
+                  {item.label}
+                </Link>
+              ))}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }
